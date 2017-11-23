@@ -1,0 +1,8 @@
+package de.fhdortmund.jk.autofinanzierung.client;
+
+import de.fh_dortmund.inf.cw.car_financing.client.shared.CarFinancingHandler;
+import de.fh_dortmund.inf.cw.car_financing.client.shared.ServiceHandler;
+
+public class ServiceHandlerImpl extends ServiceHandler implements CarFinancingHandler {
+
+}

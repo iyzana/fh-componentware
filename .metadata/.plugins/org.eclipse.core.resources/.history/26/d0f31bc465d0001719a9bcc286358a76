@@ -1,0 +1,42 @@
+package de.fhdortmund.jk.autofinanzierung.client.test;
+
+import static org.junit.Assert.*;
+
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+import de.fhdortmund.jk.autofinanzierung.client.ServiceHandlerImpl;
+
+public class ServiceHandlerTest {
+	
+	private static ServiceHandlerImpl serviceHandler;
+
+	@BeforeClass
+	public static void setUpBeforeClass() throws Exception {
+		serviceHandler = ServiceHandlerImpl.getInstance();
+	}
+
+	@Test
+	public void testInterestRate() {
+		assertEquals(0.01, serviceHandler.getInterestRate(), .0);
+	}
+
+	@Test
+	public void testNetLoanAmount() {
+		double net = serviceHandler.computeNetLoanAmount(12000, 0);
+		assertEquals(12065., net, .01);
+	}
+
+	@Test
+	public void testGrossLoanAmount() {
+		double net = serviceHandler.computeGrossLoanAmount(12000, 0, 12);
+		assertEquals(12065., net, .01);
+	}
+
+	@Test
+	public void testMonthlyPayment() {
+		double net = serviceHandler.computeMonthlyPayment(12000, 0, 12);
+		assertEquals(12065., net, .01);
+	}
+
+}

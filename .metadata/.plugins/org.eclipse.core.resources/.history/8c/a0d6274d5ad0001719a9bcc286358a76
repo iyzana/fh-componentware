@@ -1,0 +1,11 @@
+package de.fhdortmund.jk.autofinanzierung.beans.interfaces;
+
+public interface CarFinancing {
+	public double computeNetLoanAmount(double arg0, double arg1);
+	
+	public double computeGrossLoanAmount(double arg0, double arg1, int arg2);
+
+	public double computeMonthlyPayment(double arg0, double arg1, int arg2);
+
+	public double getInterestRate();
+}

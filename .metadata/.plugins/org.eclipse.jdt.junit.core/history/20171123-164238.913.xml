@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="AllTests" project="autofinanzierung-app-client" tests="1" started="1" failures="0" errors="0" ignored="0">
+  <testsuite name="de.fhdortmund.jk.autofinanzierung.client.test.AllTests" time="0.003">
+    <testsuite name="de.fhdortmund.jk.autofinanzierung.client.test.ServiceHandlerTest" time="0.003">
+      <testcase name="testInterestRate" classname="de.fhdortmund.jk.autofinanzierung.client.test.ServiceHandlerTest" time="0.003"/>
+    </testsuite>
+  </testsuite>
+</testrun>

@@ -1,0 +1,5 @@
+org.omg.CORBA.ORBInitialHost=localhost
+org.omg.CORBA.ORBInitialPort=3007
+java.naming.factory.initial=com.sun.entrprise.naming.SerialInitContextFactory
+java.naming.factory.url.pkgs=com.sun.entrprise.naaming
+java.naming.factory.state=com.sun.corba.ee.impl.presentation.rmi.JNDIStateFactoryImpl

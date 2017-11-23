@@ -1,0 +1,3 @@
+#GlassFish 3
+#Thu Nov 23 17:02:19 CET 2017
+org.eclipse.jst.jee.server\:autofinanzierung-ear=/opt/glassfish4/glassfish/domains/domain1/eclipseApps/autofinanzierung-ear

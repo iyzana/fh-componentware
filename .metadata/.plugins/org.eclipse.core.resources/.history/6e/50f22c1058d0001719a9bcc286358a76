@@ -1,0 +1,49 @@
+package de.fhdortmund.jk.autofinanzierung.client;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+
+import de.fh_dortmund.inf.cw.car_financing.client.shared.CarFinancingHandler;
+import de.fh_dortmund.inf.cw.car_financing.client.shared.ServiceHandler;
+import de.fhdortmund.jk.autofinanzierung.beans.interfaces.CarFinancingRemote;
+
+public class ServiceHandlerImpl extends ServiceHandler implements CarFinancingHandler {
+	
+	private static ServiceHandlerImpl instance; 
+
+	private Context ctx;
+	private CarFinancingRemote carFinancing;
+
+	public ServiceHandlerImpl() {
+		try {
+			ctx = new InitialContext();
+		} catch (NamingException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static ServiceHandler getInstance() {
+		return instance != null ? instance : (instance = new ServiceHandlerImpl());
+	}
+
+	@Override
+	public double computeNetLoanAmount(double arg0, double arg1) {
+		return carFinancing.computeNetLoanAmount(arg0, arg1);
+	}
+	
+	@Override
+	public double computeGrossLoanAmount(double arg0, double arg1, int arg2) {
+		return carFinancing.computeGrossLoanAmount(arg0, arg1, arg2);
+	}
+
+	@Override
+	public double computeMonthlyPayment(double arg0, double arg1, int arg2) {
+		return carFinancing;
+	}
+
+	@Override
+	public double getInterestRate() {
+		return 0;
+	}
+}

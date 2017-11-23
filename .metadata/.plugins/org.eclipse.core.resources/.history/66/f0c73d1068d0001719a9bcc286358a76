@@ -1,0 +1,44 @@
+package de.fhdortmund.jk.autofinanzierung.beans;
+
+import javax.annotation.Resource;
+import javax.ejb.Stateless;
+
+import de.fhdortmund.jk.autofinanzierung.beans.interfaces.CarFinancingLocal;
+import de.fhdortmund.jk.autofinanzierung.beans.interfaces.CarFinancingRemote;
+
+@Stateless
+public class CarFinancingBean implements CarFinancingLocal, CarFinancingRemote {
+	
+	@Resource(name = "interestRate")
+	private double interestRate;
+
+	@Override
+	public double computeNetLoanAmount(double price, double firstInstallment) {
+		return price - firstInstallment;
+	}
+
+	@Override
+	public double computeGrossLoanAmount(double price, double firstInstallment, int paymentTerm) {
+		double net = computeNetLoanAmount(price, firstInstallment);
+		double interestRate = getInterestRate();
+		
+		double interest = 0;
+		double remaining = net;
+		while (remaining > 0) {
+			interest += remaining / paymentTerm * interestRate;
+			remaining -= net / paymentTerm;
+		}
+		
+		return net + interest;
+	}
+
+	@Override
+	public double computeMonthlyPayment(double price, double firstInstallment, int paymentTerm) {
+		return computeGrossLoanAmount(price, firstInstallment, paymentTerm) / paymentTerm;
+	}
+
+	@Override
+	public double getInterestRate() {
+		return interestRate;
+	}
+}

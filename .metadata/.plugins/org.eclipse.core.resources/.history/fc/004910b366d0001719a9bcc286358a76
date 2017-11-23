@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ejb-jar xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/ejb-jar_3_2.xsd" version="3.2">
+  <enterprise-beans>
+  	<ejb-name>CarFinancingBean</ejb-name>
+  	<session>
+  	  <env-entry>
+  	  	<env-entry-name>interestRate</env-entry-name>
+  	  	<env-entry-type>java.lang.Double</env-entry-type>
+  	  	<env-entry-value>0.01</env-entry-value>
+  	  </env-entry>
+  	</session>
+  </enterprise-beans>
+  
+  <display-name>autofinanzierung-ejb</display-name>
+  <ejb-client-jar>autofinanzierung-common.jar</ejb-client-jar>
+</ejb-jar>

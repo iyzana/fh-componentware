@@ -1,0 +1,27 @@
+package de.fhdortmund.jk.autofinanzierung.beans;
+
+import de.fhdortmund.jk.autofinanzierung.beans.interfaces.CarFinancingLocal;
+import de.fhdortmund.jk.autofinanzierung.beans.interfaces.CarFinancingRemote;
+
+public class CarFinancingBean implements CarFinancingLocal, CarFinancingRemote {
+
+	@Override
+	public double computeNetLoanAmount(double arg0, double arg1) {
+		return 0;
+	}
+
+	@Override
+	public double computeGrossLoanAmount(double arg0, double arg1, int arg2) {
+		return 0;
+	}
+
+	@Override
+	public double computeMonthlyPayment(double arg0, double arg1, int arg2) {
+		return 0;
+	}
+
+	@Override
+	public double getInterestRate() {
+		return 0;
+	}
+}

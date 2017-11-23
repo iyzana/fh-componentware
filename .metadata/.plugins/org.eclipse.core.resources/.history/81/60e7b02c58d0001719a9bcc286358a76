@@ -1,0 +1,5 @@
+package de.fhdortmund.jk.autofinanzierung.beans;
+
+public class CarFinancingBean {
+
+}
