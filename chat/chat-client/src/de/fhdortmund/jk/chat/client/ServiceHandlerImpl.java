@@ -9,8 +9,8 @@ import javax.naming.NamingException;
 import de.fh_dortmund.inf.cw.chat.client.shared.ServiceHandler;
 import de.fh_dortmund.inf.cw.chat.client.shared.UserSessionHandler;
 import de.fhdortmund.jk.chat.beans.exception.NotAuthenticatedException;
-import de.fhdortmund.jk.chat.beans.interfaces.UserManager;
-import de.fhdortmund.jk.chat.beans.interfaces.UserSession;
+import de.fhdortmund.jk.chat.beans.interfaces.UserManagerRemote;
+import de.fhdortmund.jk.chat.beans.interfaces.UserSessionRemote;
 
 public class ServiceHandlerImpl extends ServiceHandler implements UserSessionHandler {
 	
@@ -20,15 +20,15 @@ public class ServiceHandlerImpl extends ServiceHandler implements UserSessionHan
 		return instance != null ? instance : (instance = new ServiceHandlerImpl());
 	}
 	
-	private UserSession session;
-	private UserManager manager;
+	private UserSessionRemote session;
+	private UserManagerRemote manager;
 	
-	private ServiceHandlerImpl() {
+	public ServiceHandlerImpl() {
 		try {
 			Context ctx = new InitialContext();
 			
-			session = (UserSession) ctx.lookup("java:global/chat-ear/chat-ejb/UserSession!de.fhdortmund.jk.chat.beans.interfaces.UserSessionRemote");
-			manager = (UserManager) ctx.lookup("java:global/chat-ear/chat-ejb/UserManagerBean!de.fhdortmund.jk.chat.beans.interfaces.UserManagerRemote");
+			session = (UserSessionRemote) ctx.lookup("java:global/chat-ear/chat-ejb/UserSession!de.fhdortmund.jk.chat.beans.interfaces.UserSessionRemote");
+			manager = (UserManagerRemote) ctx.lookup("java:global/chat-ear/chat-ejb/UserManagerBean!de.fhdortmund.jk.chat.beans.interfaces.UserManagerRemote");
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}

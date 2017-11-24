@@ -17,7 +17,6 @@ public interface UserRepositoryLocal extends UserRepository {
 	List<User> findAll();
 
 	Optional<User> findUserByName(String username);
-	
 
 	void delete(User user) throws UserNotFoundException;
 }

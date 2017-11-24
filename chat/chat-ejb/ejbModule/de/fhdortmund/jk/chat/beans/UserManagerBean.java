@@ -39,7 +39,7 @@ public class UserManagerBean implements UserManagerLocal, UserManagerRemote {
 
 	@Override
 	public List<String> getOnlineUsers() {
-		return onlineUsers.stream().collect(toList());
+		return onlineUsers;
 	}
 
 	@Override

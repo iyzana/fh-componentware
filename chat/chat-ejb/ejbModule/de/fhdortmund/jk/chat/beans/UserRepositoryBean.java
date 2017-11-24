@@ -53,4 +53,9 @@ public class UserRepositoryBean implements UserRepositoryLocal, UserRepositoryRe
 
 		users.remove(actualUser);
 	}
+	
+	@Override
+	public void deleteAll() {
+		users.clear();
+	}
 }

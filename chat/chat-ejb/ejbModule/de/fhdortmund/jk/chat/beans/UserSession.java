@@ -53,6 +53,7 @@ public class UserSession implements UserSessionLocal, UserSessionRemote {
 		users.update(user);
 	}
 
+	@Remove
 	@Override
 	public void logout() throws NotAuthenticatedException {
 		manager.userLoggedOut(getUserName());

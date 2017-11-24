@@ -4,5 +4,5 @@ import javax.ejb.Remote;
 
 @Remote
 public interface UserRepositoryRemote extends UserRepository {
-
+	void deleteAll();
 }
