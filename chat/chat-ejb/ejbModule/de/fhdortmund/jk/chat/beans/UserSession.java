@@ -47,20 +47,15 @@ public class UserSession implements UserSessionLocal, UserSessionRemote {
 
 	@Override
 	public void changePassword(String oldPw, String newPw) throws NotAuthenticatedException, UserNotFoundException {
-		if (user == null)
-			throw new NotAuthenticatedException("Nicht eingeloggt");
-		
-		if (!passwordMatches(oldPw, user.getPw()))
-			throw new NotAuthenticatedException("Falsches Passwort");
+		requireFullAuthentication(oldPw);
 		
 		user.setPw(hasher.computeHash(newPw));
 		users.update(user);
 	}
 
-	@Remove
 	@Override
-	public void logout() {
-		manager.userLoggedOut(user.getName());
+	public void logout() throws NotAuthenticatedException {
+		manager.userLoggedOut(getUserName());
 		
 		this.user = null;
 	}
@@ -68,15 +63,30 @@ public class UserSession implements UserSessionLocal, UserSessionRemote {
 	@Remove
 	@Override
 	public void disconnect() {
-		logout();
+		if (user != null) {
+			try {
+				logout();
+			} catch (NotAuthenticatedException e) {
+				throw new RuntimeException(e);
+			}
+		}
 	}
 
+	@Remove
 	@Override
 	public void delete(String pw) throws NotAuthenticatedException, UserNotFoundException {
-		if (!passwordMatches(pw, user.getPw()))
-			throw new NotAuthenticatedException("Falsches Passwort");
+		requireFullAuthentication(pw);
 		
 		users.delete(user);
+		logout();
+	}
+	
+	private void requireFullAuthentication(String pw) throws NotAuthenticatedException {
+		if (user == null)
+			throw new NotAuthenticatedException("Nicht eingeloggt");
+		
+		if (!passwordMatches(pw, user.getPw()))
+			throw new NotAuthenticatedException("Falsches Passwort");
 	}
 
 	private boolean passwordMatches(String pw, String hash) {

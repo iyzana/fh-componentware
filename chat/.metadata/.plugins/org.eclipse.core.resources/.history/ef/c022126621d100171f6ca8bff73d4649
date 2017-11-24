@@ -1,8 +1,0 @@
-package de.fhdortmund.jk.chat.beans;
-
-import de.fhdortmund.jk.chat.beans.interfaces.UserManagerLocal;
-import de.fhdortmund.jk.chat.beans.interfaces.UserManagerRemote;
-
-public class UserManagerBean implements UserManagerLocal, UserManagerRemote {
-
-}

@@ -1,8 +1,0 @@
-package de.fhdortmund.jk.chat.beans;
-
-import de.fhdortmund.jk.chat.beans.interfaces.UserSessionLocal;
-import de.fhdortmund.jk.chat.beans.interfaces.UserSessionRemote;
-
-public class UserSession implements UserSessionLocal, UserSessionRemote {
-	
-}

@@ -10,7 +10,7 @@ public interface UserSession {
 
 	public void changePassword(String oldPw, String newPw) throws NotAuthenticatedException, UserNotFoundException;
 
-	public void logout();
+	public void logout() throws NotAuthenticatedException;
 
 	public void disconnect();
 
