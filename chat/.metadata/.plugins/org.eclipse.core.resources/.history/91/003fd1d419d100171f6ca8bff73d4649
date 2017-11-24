@@ -1,0 +1,5 @@
+package de.fhdortmund.jk.chat.client;
+
+public class ServiceHandlerImpl {
+
+}

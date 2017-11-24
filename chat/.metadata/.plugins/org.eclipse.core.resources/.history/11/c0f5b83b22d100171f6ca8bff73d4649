@@ -1,0 +1,6 @@
+package de.fhdortmund.jk.chat.beans.interfaces;
+
+public class User {
+	public String name;
+	public String pw;
+}

@@ -1,0 +1,13 @@
+package de.fhdortmund.jk.chat.beans.interfaces;
+
+import java.util.List;
+
+public interface UserManager {
+	public void register(String user, String pw);
+
+	public int getNumberOfOnlineUsers();
+
+	public int getNumberOfRegisteredUsers();
+
+	public List<String> getOnlineUsers();
+}

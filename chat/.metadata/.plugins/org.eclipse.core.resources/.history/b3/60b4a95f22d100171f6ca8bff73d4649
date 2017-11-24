@@ -1,0 +1,49 @@
+package de.fhdortmund.jk.chat.beans;
+
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+
+import javax.ejb.EJB;
+import javax.ejb.Singleton;
+
+import de.fhdortmund.jk.chat.beans.exception.UserExistsException;
+import de.fhdortmund.jk.chat.beans.interfaces.User;
+import de.fhdortmund.jk.chat.beans.interfaces.UserManagerLocal;
+import de.fhdortmund.jk.chat.beans.interfaces.UserManagerRemote;
+
+@Singleton
+public class UserManagerBean implements UserManagerLocal, UserManagerRemote {
+	@EJB
+	private UserRepositoryBean users;
+	@EJB
+	private HashBean hash;
+	
+	private List<User> onlineUsers = Collections.synchronizedList(new LinkedList<>());
+
+	@Override
+	public void register(String username, String pw) throws UserExistsException {
+		User user = new User();
+		user.setName(username);
+		user.setPw(pw);
+		users.save(user);
+	}
+
+	@Override
+	public int getNumberOfOnlineUsers() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getNumberOfRegisteredUsers() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public List<String> getOnlineUsers() {
+		return onlineUsers.stream().map(User::getName);
+	}
+
+}

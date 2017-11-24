@@ -1,0 +1,49 @@
+package de.fhdortmund.jk.chat.beans;
+
+import java.util.List;
+import java.util.Optional;
+
+import javax.ejb.Singleton;
+
+import de.fhdortmund.jk.chat.beans.exception.UserExistsException;
+import de.fhdortmund.jk.chat.beans.exception.UserNotFoundException;
+import de.fhdortmund.jk.chat.beans.interfaces.User;
+import de.fhdortmund.jk.chat.beans.interfaces.UserRepositoryLocal;
+import de.fhdortmund.jk.chat.beans.interfaces.UserRepositoryRemote;
+
+@Singleton
+public class UserRepositoryBean implements UserRepositoryLocal, UserRepositoryRemote {
+	private List<User> users;
+
+	@Override
+	public User save(User user) throws UserExistsException {
+		if (findUserByName(user.name).isPresent())
+			throw new UserExistsException();
+
+		users.add(user);
+
+		return user;
+	}
+
+	@Override
+	public User update(User user) throws UserNotFoundException {
+		delete(user);
+		users.add(user);
+		
+		return user;
+	}
+
+	@Override
+	public Optional<User> findUserByName(String name) {
+		return users.stream().filter(user -> user.name.equals(name)).findFirst();
+	}
+
+	@Override
+	public void delete(User user) throws UserNotFoundException {
+		Optional<User> optUser = findUserByName(user.name);
+		if (!optUser.isPresent())
+			throw new UserNotFoundException();
+
+		users.remove(optUser.get());
+	}
+}

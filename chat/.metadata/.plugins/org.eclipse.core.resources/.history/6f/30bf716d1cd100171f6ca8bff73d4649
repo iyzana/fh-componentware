@@ -1,0 +1,38 @@
+package de.fhdortmund.jk.chat.beans;
+
+import java.util.Map;
+
+import javax.ejb.Singleton;
+
+import de.fhdortmund.jk.chat.beans.interfaces.UserRepositoryLocal;
+import de.fhdortmund.jk.chat.beans.interfaces.UserRepositoryRemote;
+
+@Singleton
+public class UserRepositoryBean implements UserRepositoryLocal, UserRepositoryRemote {
+	private List<User> users;
+
+	@Override
+	public void addUser(String user, String pw) {
+		users.putIfAbsent(user, pw);
+	}
+
+	@Override
+	public void removeUser(String user) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void getPassword(String user) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updatePassword(String user, String pw) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	
+}

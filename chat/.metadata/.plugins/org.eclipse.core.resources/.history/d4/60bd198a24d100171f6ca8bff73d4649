@@ -1,0 +1,15 @@
+package de.fhdortmund.jk.chat.beans.interfaces;
+
+public interface UserSession {
+	public String getUserName();
+
+	public void login(String username, String pw);
+
+	public void changePassword(String oldPw, String newPw);
+
+	public void logout();
+
+	public void disconnect();
+
+	public void delete(String pw);
+}

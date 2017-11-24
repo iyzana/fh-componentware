@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Move &apos;jbcrypt-0.4.jar&apos; to &apos;lib&apos;" description="Move &apos;jbcrypt-0.4.jar&apos; to &apos;lib&apos;" destination="lib" element1="/chat-client/lib/jbcrypt-0.4.jar" flags="7" id="org.eclipse.ltk.core.refactoring.move.resources" resources="1" stamp="1511519322536" updateReferences="true"/>
+</session>
