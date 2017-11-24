@@ -1,0 +1,2 @@
+eclipse.preferences.version=1
+runtimes=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?>\n<runtimes>\n  <runtime id\="GlassFish 4" location\="/opt/glassfish4/glassfish" name\="GlassFish 4" runtime-type-id\="glassfish" server.jdk\="/usr/lib/jvm/java-8-jdk" timestamp\="0"/>\n</runtimes>\n

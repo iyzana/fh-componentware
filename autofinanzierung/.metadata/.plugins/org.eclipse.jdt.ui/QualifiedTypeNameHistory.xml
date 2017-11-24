@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="javax.naming.Context"/>
+<fullyQualifiedTypeName name="javax.naming.InitialContext"/>
+<fullyQualifiedTypeName name="de.fhdortmund.jk.autofinanzierung.beans.interfaces.CarFinancing"/>
+<fullyQualifiedTypeName name="de.fhdortmund.jk.autofinanzierung.beans.interfaces.CarFinancingLocal"/>
+<fullyQualifiedTypeName name="javax.ejb.Stateless"/>
+<fullyQualifiedTypeName name="de.fhdortmund.jk.autofinanzierung.beans.interfaces.CarFinancingRemote"/>
+<fullyQualifiedTypeName name="javax.ejb.Local"/>
+<fullyQualifiedTypeName name="javax.ejb.Remote"/>
+<fullyQualifiedTypeName name="de.fhdortmund.jk.autofinanzierung.client.test.ServiceHandlerTest"/>
+<fullyQualifiedTypeName name="de.fhdortmund.jk.autofinanzierung.client.ServiceHandlerImpl"/>
+<fullyQualifiedTypeName name="de.fh_dortmund.inf.cw.car_financing.client.shared.ServiceHandler"/>
+<fullyQualifiedTypeName name="de.fh_dortmund.inf.cw.car_financing.client.shared.CarFinancingHandler"/>
+<fullyQualifiedTypeName name="javax.annotation.Resource"/>
+</qualifiedTypeNameHistroy>

@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?><testrun name="ServiceHandlerTest" project="autofinanzierung-app-client" tests="4" started="4" failures="0" errors="0" ignored="0">
-  <testsuite name="de.fhdortmund.jk.autofinanzierung.client.test.ServiceHandlerTest" time="0.158">
-    <testcase name="testNetLoanAmount" classname="de.fhdortmund.jk.autofinanzierung.client.test.ServiceHandlerTest" time="0.128"/>
-    <testcase name="testGrossLoanAmount" classname="de.fhdortmund.jk.autofinanzierung.client.test.ServiceHandlerTest" time="0.008"/>
-    <testcase name="testMonthlyPayment" classname="de.fhdortmund.jk.autofinanzierung.client.test.ServiceHandlerTest" time="0.005"/>
-    <testcase name="testInterestRate" classname="de.fhdortmund.jk.autofinanzierung.client.test.ServiceHandlerTest" time="0.017"/>
-  </testsuite>
-</testrun>
