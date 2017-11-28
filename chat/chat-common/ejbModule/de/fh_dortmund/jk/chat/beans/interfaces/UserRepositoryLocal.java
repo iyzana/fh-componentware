@@ -1,0 +1,23 @@
+package de.fh_dortmund.jk.chat.beans.interfaces;
+
+import java.util.List;
+import java.util.Optional;
+
+import javax.ejb.Local;
+
+import de.fh_dortmund.jk.chat.beans.exception.UserExistsException;
+import de.fh_dortmund.jk.chat.beans.exception.UserNotFoundException;
+import de.fh_dortmund.jk.chat.entity.User;
+
+@Local
+public interface UserRepositoryLocal extends UserRepository {
+	User save(User user) throws UserExistsException;
+
+	User update(User user) throws UserNotFoundException;
+
+	List<User> findAll();
+
+	Optional<User> findUserByName(String username);
+
+	void delete(User user) throws UserNotFoundException;
+}

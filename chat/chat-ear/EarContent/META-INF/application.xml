@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+			 xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+			 xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+			 					 http://xmlns.jcp.org/xml/ns/javaee/application_7.xsd"
+			 version="7">
+  <module>
+    <ejb>chat-ejb.jar</ejb>
+  </module>
+  <module>
+    <java>chat-common.jar</java>
+  </module>
+  <jms-destination>
+    <name>java:global/jms/ChatIncoming</name>
+    <interface-name>javax.jms.Topic</interface-name>
+    <destination-name>ChatIncoming</destination-name>
+  </jms-destination>
+  <jms-destination>
+    <name>java:global/jms/ChatOutgoing</name>
+    <interface-name>javax.jms.Topic</interface-name>
+    <destination-name>ChatOutgoing</destination-name>
+  </jms-destination>
+</application>
