@@ -49,11 +49,13 @@ public class UserManagerBean implements UserManagerLocal, UserManagerRemote {
 
 	@Override
 	public void userLoggedIn(String username) {
+		System.out.println("login callback " + username);
 		onlineUsers.add(username);
 	}
 
 	@Override
 	public void userLoggedOut(String username) {
+		System.out.println("logout callback " + username);
 		onlineUsers.remove(username);
 		
 	}

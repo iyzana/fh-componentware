@@ -27,7 +27,7 @@ public class ServiceHandlerImpl extends ServiceHandler implements UserSessionHan
 		try {
 			Context ctx = new InitialContext();
 			
-			session = (UserSessionRemote) ctx.lookup("java:global/chat-ear/chat-ejb/UserSession!de.fhdortmund.jk.chat.beans.interfaces.UserSessionRemote");
+			session = (UserSessionRemote) ctx.lookup("java:global/chat-ear/chat-ejb/UserSessionBean!de.fhdortmund.jk.chat.beans.interfaces.UserSessionRemote");
 			manager = (UserManagerRemote) ctx.lookup("java:global/chat-ear/chat-ejb/UserManagerBean!de.fhdortmund.jk.chat.beans.interfaces.UserManagerRemote");
 		} catch (NamingException e) {
 			e.printStackTrace();
