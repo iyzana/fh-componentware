@@ -1,6 +1,5 @@
 package de.fhdortmund.jk.chat.beans;
 
-import static java.util.stream.Collectors.toList;
 import static java.util.Collections.synchronizedList;
 
 import java.util.LinkedList;
@@ -49,13 +48,11 @@ public class UserManagerBean implements UserManagerLocal, UserManagerRemote {
 
 	@Override
 	public void userLoggedIn(String username) {
-		System.out.println("login callback " + username);
 		onlineUsers.add(username);
 	}
 
 	@Override
 	public void userLoggedOut(String username) {
-		System.out.println("logout callback " + username);
 		onlineUsers.remove(username);
 		
 	}

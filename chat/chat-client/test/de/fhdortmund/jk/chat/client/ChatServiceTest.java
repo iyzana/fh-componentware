@@ -15,6 +15,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import de.fhdortmund.jk.chat.beans.exception.AlreadyLoggedInException;
+import de.fhdortmund.jk.chat.beans.exception.NotAuthenticatedException;
 import de.fhdortmund.jk.chat.beans.interfaces.UserRepositoryRemote;
 
 public class ChatServiceTest {
@@ -58,11 +59,21 @@ public class ChatServiceTest {
 		assertEquals("test", chatService.getUserName());
 	}
 
+	@Test(expected = RuntimeException.class)
+	public void testUserNameWhenNotLoggedIn() throws Exception {
+		chatService.getUserName();
+	}
+
 	@Test
 	public void testLogin() throws Exception {
 		chatService.login("test", "test");
 
 		assertThat(chatService.getOnlineUsers(), hasItem("test"));
+	}
+
+	@Test(expected = NotAuthenticatedException.class)
+	public void testLoginWithWrongPassword() throws Exception {
+		chatService.login("test", "test2");
 	}
 
 	@Test
@@ -107,6 +118,12 @@ public class ChatServiceTest {
 		chatService.login("test", "test2");
 	}
 
+	@Test(expected = NotAuthenticatedException.class)
+	public void testChangePasswordWithWrongPassword() throws Exception {
+		chatService.login("test", "test");
+		chatService.changePassword("wrong", "test2");
+	}
+
 	@Test
 	public void testLogout() throws Exception {
 		chatService.login("test", "test");
@@ -121,6 +138,11 @@ public class ChatServiceTest {
 		}
 
 		fail();
+	}
+
+	@Test(expected = NotAuthenticatedException.class)
+	public void testLogoutWhenNotLoggedIn() throws Exception {
+		chatService.logout();
 	}
 
 	@Test
@@ -148,6 +170,12 @@ public class ChatServiceTest {
 		}
 
 		fail();
+	}
+
+	@Test(expected = NotAuthenticatedException.class)
+	public void testDeleteWithWrongPassword() throws Exception {
+		chatService.login("test", "test");
+		chatService.delete("wrong");
 	}
 
 }

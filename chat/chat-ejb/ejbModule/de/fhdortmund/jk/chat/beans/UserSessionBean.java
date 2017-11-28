@@ -41,10 +41,9 @@ public class UserSessionBean implements UserSessionLocal, UserSessionRemote {
 		if (!passwordMatches(pw, user.getPw()))
 			throw new NotAuthenticatedException("Falsches Passwort");
 		
-		if (this.user != null && username.equals(getUserName()))
+		if (this.user != null)
 			throw new AlreadyLoggedInException("Du bist bereits eingeloggt");
 
-		System.out.println("login");
 		this.user = user;
 		
 		manager.userLoggedIn(user.getName());
@@ -61,7 +60,6 @@ public class UserSessionBean implements UserSessionLocal, UserSessionRemote {
 	@Remove
 	@Override
 	public void logout() throws NotAuthenticatedException {
-		System.out.println("logout");
 		manager.userLoggedOut(getUserName());
 		
 		this.user = null;
@@ -70,7 +68,6 @@ public class UserSessionBean implements UserSessionLocal, UserSessionRemote {
 	@Remove
 	@Override
 	public void disconnect() {
-		System.out.println("disconnect");
 		if (user != null) {
 			try {
 				logout();
@@ -80,11 +77,9 @@ public class UserSessionBean implements UserSessionLocal, UserSessionRemote {
 		}
 	}
 
-	@Remove
 	@Override
 	public void delete(String pw) throws NotAuthenticatedException, UserNotFoundException {
 		requireFullAuthentication(pw);
-		System.out.println("delete");
 		
 		users.delete(user);
 		logout();
