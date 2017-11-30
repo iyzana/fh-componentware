@@ -13,7 +13,7 @@ import javax.inject.Inject;
 import javax.jms.JMSContext;
 import javax.jms.JMSException;
 import javax.jms.Message;
-import javax.jms.Queue;
+import javax.jms.Topic;
 
 import de.fh_dortmund.inf.cw.chat.server.shared.ChatMessage;
 import de.fh_dortmund.inf.cw.chat.server.shared.ChatMessageType;
@@ -32,9 +32,9 @@ public class UserManagerBean implements UserManagerLocal, UserManagerRemote {
 	@Inject
 	private JMSContext jmsContext;
 	@Resource(lookup = "java:global/jms/ChatReceiving")
-	private Queue chat;
+	private Topic chat;
 	@Resource(lookup = "java:global/jms/Disconnect")
-	private Queue disconnect;
+	private Topic disconnect;
 
 	private List<String> onlineUsers = synchronizedList(new LinkedList<>());
 

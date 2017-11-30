@@ -35,8 +35,8 @@ public class ServiceHandlerImpl extends ServiceHandler
 	private UserSessionRemote session;
 	private UserManagerRemote manager;
 	private JMSContext jmsContext;
-	private Topic chat;
-	private Queue disconnect;
+	private Queue chat;
+	private Topic disconnect;
 
 	public ServiceHandlerImpl() {
 		try {
@@ -50,12 +50,12 @@ public class ServiceHandlerImpl extends ServiceHandler
 			ConnectionFactory con = (ConnectionFactory) ctx.lookup("java:comp/DefaultJMSConnectionFactory");
 			jmsContext = con.createContext();
 
-			chat = (Topic) ctx.lookup("java:global/jms/ChatSending");
+			chat = (Queue) ctx.lookup("java:global/jms/ChatSending");
 
-			Queue chatIncoming = (Queue) ctx.lookup("java:global/jms/ChatReceiving");
+			Topic chatIncoming = (Topic) ctx.lookup("java:global/jms/ChatReceiving");
 			jmsContext.createConsumer(chatIncoming).setMessageListener(this);
 			
-			disconnect = (Queue) ctx.lookup("java:global/jms/Disconnect");
+			disconnect = (Topic) ctx.lookup("java:global/jms/Disconnect");
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}

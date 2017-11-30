@@ -13,8 +13,8 @@ import javax.jms.JMSContext;
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageListener;
-import javax.jms.Queue;
 import javax.jms.TextMessage;
+import javax.jms.Topic;
 
 import de.fh_dortmund.inf.cw.chat.server.shared.ChatMessage;
 import de.fh_dortmund.inf.cw.chat.server.shared.ChatMessageType;
@@ -22,12 +22,12 @@ import de.fh_dortmund.jk.chat.beans.interfaces.MessageProcessorLocal;
 import de.fh_dortmund.jk.chat.beans.interfaces.MessageProcessorRemote;
 
 @MessageDriven(mappedName = "java:global/jms/ChatSending", activationConfig = {
-		@ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Topic") })
+		@ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue") })
 public class MessageProcessorBean implements MessageProcessorLocal, MessageProcessorRemote, MessageListener {
 	@Inject
 	private JMSContext jmsContext;
 	@Resource(lookup = "java:global/jms/ChatReceiving")
-	private Queue chat;
+	private Topic chat;
 
 	@Override
 	public void onMessage(Message message) {

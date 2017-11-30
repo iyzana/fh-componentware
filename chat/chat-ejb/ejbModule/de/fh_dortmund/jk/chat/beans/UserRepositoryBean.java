@@ -1,5 +1,8 @@
 package de.fh_dortmund.jk.chat.beans;
 
+import static java.util.Collections.synchronizedList;
+
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -8,11 +11,9 @@ import javax.ejb.Singleton;
 
 import de.fh_dortmund.jk.chat.beans.exception.UserExistsException;
 import de.fh_dortmund.jk.chat.beans.exception.UserNotFoundException;
-import de.fh_dortmund.jk.chat.entity.User;
 import de.fh_dortmund.jk.chat.beans.interfaces.UserRepositoryLocal;
 import de.fh_dortmund.jk.chat.beans.interfaces.UserRepositoryRemote;
-
-import static java.util.Collections.synchronizedList;
+import de.fh_dortmund.jk.chat.entity.User;
 
 @Singleton
 public class UserRepositoryBean implements UserRepositoryLocal, UserRepositoryRemote {
@@ -38,7 +39,7 @@ public class UserRepositoryBean implements UserRepositoryLocal, UserRepositoryRe
 
 	@Override
 	public List<User> findAll() {
-		return users;
+		return new ArrayList<>(users);
 	}
 
 	@Override
