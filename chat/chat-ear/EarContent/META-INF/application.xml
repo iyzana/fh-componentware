@@ -11,13 +11,18 @@
     <java>chat-common.jar</java>
   </module>
   <jms-destination>
-    <name>java:global/jms/ChatIncoming</name>
+    <name>java:global/jms/ChatSending</name>
     <interface-name>javax.jms.Topic</interface-name>
-    <destination-name>ChatIncoming</destination-name>
+    <destination-name>ChatSending</destination-name>
   </jms-destination>
   <jms-destination>
-    <name>java:global/jms/ChatOutgoing</name>
-    <interface-name>javax.jms.Topic</interface-name>
-    <destination-name>ChatOutgoing</destination-name>
+    <name>java:global/jms/ChatReceiving</name>
+    <interface-name>javax.jms.Queue</interface-name>
+    <destination-name>ChatReceiving</destination-name>
+  </jms-destination>
+  <jms-destination>
+    <name>java:global/jms/Disconnect</name>
+    <interface-name>javax.jms.Queue</interface-name>
+    <destination-name>Disconnect</destination-name>
   </jms-destination>
 </application>

@@ -1,7 +1,5 @@
 package de.fh_dortmund.jk.chat.beans;
 
-import static java.util.stream.Collectors.joining;
-
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
@@ -15,21 +13,21 @@ import javax.jms.JMSContext;
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageListener;
+import javax.jms.Queue;
 import javax.jms.TextMessage;
-import javax.jms.Topic;
 
 import de.fh_dortmund.inf.cw.chat.server.shared.ChatMessage;
 import de.fh_dortmund.inf.cw.chat.server.shared.ChatMessageType;
 import de.fh_dortmund.jk.chat.beans.interfaces.MessageProcessorLocal;
 import de.fh_dortmund.jk.chat.beans.interfaces.MessageProcessorRemote;
 
-@MessageDriven(mappedName = "java:global/jms/ChatIncoming", activationConfig = {
+@MessageDriven(mappedName = "java:global/jms/ChatSending", activationConfig = {
 		@ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Topic") })
 public class MessageProcessorBean implements MessageProcessorLocal, MessageProcessorRemote, MessageListener {
 	@Inject
 	private JMSContext jmsContext;
-	@Resource(lookup = "java:global/jms/ChatOutgoing")
-	private Topic chat;
+	@Resource(lookup = "java:global/jms/ChatReceiving")
+	private Queue chat;
 
 	@Override
 	public void onMessage(Message message) {
@@ -41,11 +39,12 @@ public class MessageProcessorBean implements MessageProcessorLocal, MessageProce
 			String content = textMessage.getText();
 			Date when = new Date();
 
-			String sanitizedContent = Arrays.stream(content.split("\\b"))
-				.map(this::badWordReplacer)
-				.collect(joining());
+			StringBuilder sanitizedContent = new StringBuilder();
+			for (String word : content.split("\\b")) {
+				sanitizedContent.append(badWordReplacer(word));
+			}
 
-			sendMessage(new ChatMessage(type, sender, sanitizedContent, when));
+			sendMessage(new ChatMessage(type, sender, sanitizedContent.toString(), when));
 		} catch (JMSException e) {
 			e.printStackTrace();
 		}
@@ -60,31 +59,21 @@ public class MessageProcessorBean implements MessageProcessorLocal, MessageProce
 	private Set<String> badWords = initBadWords();
 	
 	private String badWordReplacer(String word) {
-		boolean containsBadWord = badWords.stream().anyMatch(badWord -> word.toLowerCase().contains(badWord));
-		return containsBadWord ? "#!*$" : word;
+		for (String badWord : badWords) {
+			if (word.toLowerCase().contains(badWord))
+				return "#!*$";
+		}
+
+		return word;
 	}
 
 	// ========== BEWARE, ACTUAL BAD WORDS ==========
 	
 	private Set<String> initBadWords() {
-		Set<String> badWords = new HashSet<>();
-		badWords.add("arsch");
-		badWords.add("loser");
-		badWords.add("fuck");
-		badWords.add("fck");
-		badWords.add("whore");
-		badWords.add("idiot");
-		badWords.add("fag");
-		badWords.add("turd");
-		badWords.add("twat");
-		badWords.add("shit");
-		badWords.add("cock");
-		badWords.add("dick");
-		badWords.add("pussy");
-		badWords.add("bitch");
-		badWords.add("slut");
-		badWords.add("scum");
-		badWords.add("cunt");
-		return badWords;
+		return new HashSet<>(Arrays.asList(
+				"arsch", "looser", "fuck", "fck", "whore",
+				"idiot", "fag", "turd", "twat", "shit",
+				"cock", "dick", "pussy", "bitch", "slut",
+				"scum", "cunt"));
 	}
 }

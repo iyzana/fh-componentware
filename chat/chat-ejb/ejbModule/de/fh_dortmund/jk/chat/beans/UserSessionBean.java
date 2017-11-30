@@ -7,11 +7,11 @@ import javax.ejb.Stateful;
 import de.fh_dortmund.jk.chat.beans.exception.AlreadyLoggedInException;
 import de.fh_dortmund.jk.chat.beans.exception.NotAuthenticatedException;
 import de.fh_dortmund.jk.chat.beans.exception.UserNotFoundException;
-import de.fh_dortmund.jk.chat.entity.User;
 import de.fh_dortmund.jk.chat.beans.interfaces.UserManagerLocal;
 import de.fh_dortmund.jk.chat.beans.interfaces.UserRepositoryLocal;
 import de.fh_dortmund.jk.chat.beans.interfaces.UserSessionLocal;
 import de.fh_dortmund.jk.chat.beans.interfaces.UserSessionRemote;
+import de.fh_dortmund.jk.chat.entity.User;
 
 @Stateful
 public class UserSessionBean implements UserSessionLocal, UserSessionRemote {
