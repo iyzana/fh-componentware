@@ -22,10 +22,22 @@ public class CommonStatisticRepositoryBean implements CommonStatisticRepositoryL
 		
 		return statistic;
 	}
+	
+	@Override
+	public CommonStatistic update(CommonStatistic statistic) {
+		return statistic;
+	}
 
 	@Override
 	public List<CommonStatistic> findAll() {
 		return new ArrayList<>(statistics);
+	}
+
+	@Override
+	public CommonStatistic findLast() {
+		if (statistics.isEmpty())
+			return null;
+		return statistics.get(statistics.size() - 1);
 	}
 
 	@Override

@@ -1,6 +1,6 @@
 package de.fh_dortmund.jk.chat.beans.interfaces;
 
-import java.util.List;
+import java.util.Map;
 
 import javax.ejb.Local;
 
@@ -8,9 +8,9 @@ import de.fh_dortmund.inf.cw.chat.server.entities.UserStatistic;
 
 @Local
 public interface UserStatisticRepositoryLocal extends UserStatisticRepository {
-	UserStatistic save(UserStatistic statistic);
+	UserStatistic save(String username, UserStatistic statistic);
 
-	List<UserStatistic> findAll();
+	Map<String, UserStatistic> findAll();
 
-	void delete(UserStatistic statistic);
+	void delete(String username);
 }

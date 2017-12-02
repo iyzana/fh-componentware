@@ -1,6 +1,6 @@
 package de.fh_dortmund.inf.cw.chat.server.entities;
 
-import java.sql.Date;
+import java.util.Date;
 
 public class UserStatistic extends Statistic {
 	private Date lastLogin;

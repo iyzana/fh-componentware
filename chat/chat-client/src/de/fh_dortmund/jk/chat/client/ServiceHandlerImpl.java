@@ -17,14 +17,19 @@ import javax.naming.NamingException;
 
 import de.fh_dortmund.inf.cw.chat.client.shared.ChatMessageHandler;
 import de.fh_dortmund.inf.cw.chat.client.shared.ServiceHandler;
+import de.fh_dortmund.inf.cw.chat.client.shared.StatisticHandler;
 import de.fh_dortmund.inf.cw.chat.client.shared.UserSessionHandler;
+import de.fh_dortmund.inf.cw.chat.server.entities.CommonStatistic;
+import de.fh_dortmund.inf.cw.chat.server.entities.UserStatistic;
 import de.fh_dortmund.inf.cw.chat.server.shared.ChatMessage;
 import de.fh_dortmund.jk.chat.beans.exception.NotAuthenticatedException;
+import de.fh_dortmund.jk.chat.beans.interfaces.CommonStatisticRepositoryRemote;
 import de.fh_dortmund.jk.chat.beans.interfaces.UserManagerRemote;
 import de.fh_dortmund.jk.chat.beans.interfaces.UserSessionRemote;
+import de.fh_dortmund.jk.chat.beans.interfaces.UserStatisticRepositoryRemote;
 
 public class ServiceHandlerImpl extends ServiceHandler
-		implements UserSessionHandler, ChatMessageHandler, MessageListener {
+		implements UserSessionHandler, ChatMessageHandler, MessageListener, StatisticHandler {
 
 	private static ServiceHandlerImpl instance;
 
@@ -34,6 +39,8 @@ public class ServiceHandlerImpl extends ServiceHandler
 
 	private UserSessionRemote session;
 	private UserManagerRemote manager;
+	private CommonStatisticRepositoryRemote commonStatsRepo;
+	private UserStatisticRepositoryRemote userStatsRepo;
 	private JMSContext jmsContext;
 	private Queue chat;
 	private Topic disconnect;
@@ -46,6 +53,10 @@ public class ServiceHandlerImpl extends ServiceHandler
 					"java:global/chat-ear/chat-ejb/UserSessionBean!de.fh_dortmund.jk.chat.beans.interfaces.UserSessionRemote");
 			manager = (UserManagerRemote) ctx.lookup(
 					"java:global/chat-ear/chat-ejb/UserManagerBean!de.fh_dortmund.jk.chat.beans.interfaces.UserManagerRemote");
+			commonStatsRepo = (CommonStatisticRepositoryRemote) ctx.lookup(
+					"java:global/chat-ear/chat-ejb/CommonStatisticRepositoryBean!de.fh_dortmund.jk.chat.beans.interfaces.CommonStatisticRepositoryRemote");
+			userStatsRepo = (UserStatisticRepositoryRemote) ctx.lookup(
+					"java:global/chat-ear/chat-ejb/UserStatisticRepositoryBean!de.fh_dortmund.jk.chat.beans.interfaces.UserStatisticRepositoryRemote");
 
 			ConnectionFactory con = (ConnectionFactory) ctx.lookup("java:comp/DefaultJMSConnectionFactory");
 			jmsContext = con.createContext();
@@ -139,5 +150,15 @@ public class ServiceHandlerImpl extends ServiceHandler
 		} catch (JMSException e) {
 			throw new RuntimeException(e);
 		}
+	}
+
+	@Override
+	public List<CommonStatistic> getStatistics() {
+		return commonStatsRepo.findAll();
+	}
+
+	@Override
+	public UserStatistic getUserStatistic() {
+		return userStatsRepo.findByUser(getUserName());
 	}
 }

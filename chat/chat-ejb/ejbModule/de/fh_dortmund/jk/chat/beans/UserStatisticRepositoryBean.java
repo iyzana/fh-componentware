@@ -1,10 +1,9 @@
 package de.fh_dortmund.jk.chat.beans;
 
-import static java.util.Collections.synchronizedList;
+import static java.util.Collections.synchronizedMap;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.ejb.Singleton;
 
@@ -14,22 +13,27 @@ import de.fh_dortmund.jk.chat.beans.interfaces.UserStatisticRepositoryRemote;
 
 @Singleton
 public class UserStatisticRepositoryBean implements UserStatisticRepositoryLocal, UserStatisticRepositoryRemote {
-	private List<UserStatistic> statistics = synchronizedList(new LinkedList<>());
+	private Map<String, UserStatistic> statistics = synchronizedMap(new HashMap<>());
 
 	@Override
-	public UserStatistic save(UserStatistic statistic) {
-		statistics.add(statistic);
+	public UserStatistic save(String username, UserStatistic statistic) {
+		statistics.put(username, statistic);
 		
 		return statistic;
 	}
 
 	@Override
-	public List<UserStatistic> findAll() {
-		return new ArrayList<>(statistics);
+	public Map<String, UserStatistic> findAll() {
+		return new HashMap<>(statistics);
 	}
 
 	@Override
-	public void delete(UserStatistic statistic) {
-		statistics.remove(statistic);
+	public UserStatistic findByUser(String username) {
+		return statistics.get(username);
+	}
+	
+	@Override
+	public void delete(String username) {
+		statistics.remove(username);
 	}
 }

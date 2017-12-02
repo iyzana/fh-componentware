@@ -1,6 +1,8 @@
 package de.fh_dortmund.inf.cw.chat.server.entities;
 
-public abstract class Statistic {
+import java.io.Serializable;
+
+public abstract class Statistic implements Serializable {
 	private int logins;
 	private int logouts;
 	private int messages;

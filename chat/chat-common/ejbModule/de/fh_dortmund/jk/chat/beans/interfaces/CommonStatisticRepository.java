@@ -1,5 +1,9 @@
 package de.fh_dortmund.jk.chat.beans.interfaces;
 
-public interface CommonStatisticRepository {
+import java.util.List;
 
+import de.fh_dortmund.inf.cw.chat.server.entities.CommonStatistic;
+
+public interface CommonStatisticRepository {
+	List<CommonStatistic> findAll();
 }

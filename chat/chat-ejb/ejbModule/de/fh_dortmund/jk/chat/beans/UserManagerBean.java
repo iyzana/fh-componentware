@@ -15,12 +15,17 @@ import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.Topic;
 
+import de.fh_dortmund.inf.cw.chat.server.entities.CommonStatistic;
+import de.fh_dortmund.inf.cw.chat.server.entities.UserStatistic;
 import de.fh_dortmund.inf.cw.chat.server.shared.ChatMessage;
 import de.fh_dortmund.inf.cw.chat.server.shared.ChatMessageType;
 import de.fh_dortmund.jk.chat.beans.exception.UserExistsException;
+import de.fh_dortmund.jk.chat.beans.interfaces.CommonStatisticRepositoryLocal;
+import de.fh_dortmund.jk.chat.beans.interfaces.StatisticServiceLocal;
 import de.fh_dortmund.jk.chat.beans.interfaces.UserManagerLocal;
 import de.fh_dortmund.jk.chat.beans.interfaces.UserManagerRemote;
 import de.fh_dortmund.jk.chat.beans.interfaces.UserRepositoryLocal;
+import de.fh_dortmund.jk.chat.beans.interfaces.UserStatisticRepositoryLocal;
 import de.fh_dortmund.jk.chat.entity.User;
 
 @Singleton
@@ -29,6 +34,13 @@ public class UserManagerBean implements UserManagerLocal, UserManagerRemote {
 	private UserRepositoryLocal users;
 	@EJB
 	private HashBean hasher;
+	@EJB
+	private UserStatisticRepositoryLocal userStatistics;
+	@EJB
+	private CommonStatisticRepositoryLocal commonStatistics;
+	@EJB
+	private StatisticServiceLocal statistics;
+	
 	@Inject
 	private JMSContext jmsContext;
 	@Resource(lookup = "java:global/jms/ChatReceiving")
@@ -68,12 +80,36 @@ public class UserManagerBean implements UserManagerLocal, UserManagerRemote {
 		if (onlineUsers.contains(username))
 			sendDisconnectMessage(username);
 
+		UserStatistic userStat = userStatistics.findByUser(username);
+		if (userStat == null)
+			userStat = new UserStatistic();
+		userStat.setLogins(userStat.getLogins() + 1);
+		userStat.setLastLogin(new Date());
+		userStatistics.save(username, userStat);
+		
+		statistics.createFirstStatistic();
+		CommonStatistic commonStat = commonStatistics.findLast();
+		commonStat.setLogins(commonStat.getLogins() + 1);
+		commonStatistics.update(commonStat);
+		
+		statistics.createIntervalTimer();
+
 		onlineUsers.add(username);
 		sendMessageOfType(ChatMessageType.LOGIN, username);
 	}
 
 	@Override
 	public void userLoggedOut(String username) {
+		UserStatistic userStat = userStatistics.findByUser(username);
+		if (userStat == null)
+			userStat = new UserStatistic();
+		userStat.setLogouts(userStat.getLogouts() + 1);
+		userStatistics.save(username, userStat);
+		
+		CommonStatistic commonStat = commonStatistics.findLast();
+		commonStat.setLogouts(commonStat.getLogouts() + 1);
+		commonStatistics.update(commonStat);
+		
 		onlineUsers.remove(username);
 		sendMessageOfType(ChatMessageType.LOGOUT, username);
 	}
