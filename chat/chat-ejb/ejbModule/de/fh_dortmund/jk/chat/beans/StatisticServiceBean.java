@@ -91,6 +91,7 @@ public class StatisticServiceBean implements StatisticServiceLocal, StatisticSer
 	@Timeout
 	@Override
 	public void sendStatistic() {
+		createFirstStatistic();
 		CommonStatistic stat = statistics.findLast();
 
 		int minute = LocalDateTime.now().getMinute();

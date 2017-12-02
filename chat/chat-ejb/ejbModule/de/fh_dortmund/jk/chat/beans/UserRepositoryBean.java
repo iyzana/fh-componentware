@@ -9,11 +9,11 @@ import java.util.Optional;
 
 import javax.ejb.Singleton;
 
+import de.fh_dortmund.inf.cw.chat.server.entities.User;
 import de.fh_dortmund.jk.chat.beans.exception.UserExistsException;
 import de.fh_dortmund.jk.chat.beans.exception.UserNotFoundException;
 import de.fh_dortmund.jk.chat.beans.interfaces.UserRepositoryLocal;
 import de.fh_dortmund.jk.chat.beans.interfaces.UserRepositoryRemote;
-import de.fh_dortmund.jk.chat.entity.User;
 
 @Singleton
 public class UserRepositoryBean implements UserRepositoryLocal, UserRepositoryRemote {

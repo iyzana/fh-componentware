@@ -5,9 +5,9 @@ import java.util.Optional;
 
 import javax.ejb.Local;
 
+import de.fh_dortmund.inf.cw.chat.server.entities.User;
 import de.fh_dortmund.jk.chat.beans.exception.UserExistsException;
 import de.fh_dortmund.jk.chat.beans.exception.UserNotFoundException;
-import de.fh_dortmund.jk.chat.entity.User;
 
 @Local
 public interface UserRepositoryLocal extends UserRepository {

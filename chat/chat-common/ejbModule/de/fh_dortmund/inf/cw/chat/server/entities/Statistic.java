@@ -2,6 +2,9 @@ package de.fh_dortmund.inf.cw.chat.server.entities;
 
 import java.io.Serializable;
 
+import javax.persistence.MappedSuperclass;
+
+@MappedSuperclass
 public abstract class Statistic implements Serializable {
 	private int logins;
 	private int logouts;

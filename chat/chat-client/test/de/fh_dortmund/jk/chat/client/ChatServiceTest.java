@@ -1,23 +1,27 @@
 package de.fh_dortmund.jk.chat.client;
 
-import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
+
+import java.util.List;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
+import org.hamcrest.Matchers;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import de.fh_dortmund.inf.cw.chat.server.entities.CommonStatistic;
+import de.fh_dortmund.inf.cw.chat.server.entities.UserStatistic;
 import de.fh_dortmund.jk.chat.beans.exception.AlreadyLoggedInException;
 import de.fh_dortmund.jk.chat.beans.exception.NotAuthenticatedException;
 import de.fh_dortmund.jk.chat.beans.interfaces.UserRepositoryRemote;
-import de.fh_dortmund.jk.chat.client.ServiceHandlerImpl;
 
 public class ChatServiceTest {
 
@@ -179,4 +183,23 @@ public class ChatServiceTest {
 		chatService.delete("wrong");
 	}
 
+	@Test
+	public void testStatistics() {
+		List<CommonStatistic> stats = chatService.getStatistics();
+		
+		assertThat(stats, not(empty()));
+	}
+
+	@Test(expected = RuntimeException.class)
+	public void testUserStatisticWithoutLogin() throws Exception {
+		chatService.getUserStatistic();
+	}
+
+	@Test
+	public void testUserStatistic() throws Exception {
+		chatService.login("test", "test");
+		UserStatistic stats = chatService.getUserStatistic();
+		
+		assertThat(stats.getLogins(), greaterThanOrEqualTo(1));
+	}
 }

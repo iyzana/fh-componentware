@@ -16,6 +16,7 @@ import javax.jms.Message;
 import javax.jms.Topic;
 
 import de.fh_dortmund.inf.cw.chat.server.entities.CommonStatistic;
+import de.fh_dortmund.inf.cw.chat.server.entities.User;
 import de.fh_dortmund.inf.cw.chat.server.entities.UserStatistic;
 import de.fh_dortmund.inf.cw.chat.server.shared.ChatMessage;
 import de.fh_dortmund.inf.cw.chat.server.shared.ChatMessageType;
@@ -26,7 +27,6 @@ import de.fh_dortmund.jk.chat.beans.interfaces.UserManagerLocal;
 import de.fh_dortmund.jk.chat.beans.interfaces.UserManagerRemote;
 import de.fh_dortmund.jk.chat.beans.interfaces.UserRepositoryLocal;
 import de.fh_dortmund.jk.chat.beans.interfaces.UserStatisticRepositoryLocal;
-import de.fh_dortmund.jk.chat.entity.User;
 
 @Singleton
 public class UserManagerBean implements UserManagerLocal, UserManagerRemote {
