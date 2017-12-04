@@ -90,7 +90,8 @@ public class UserManagerBean implements UserManagerLocal, UserManagerRemote {
 		userStatistics.save(userStat);
 		user.setStat(userStat);
 		users.update(user);
-		
+
+		// Lock(WRITE) is the default and does not need to be specified explicitly
 		statistics.createFirstStatistic();
 		CommonStatistic commonStat = commonStatistics.findLast();
 		commonStat.setLogins(commonStat.getLogins() + 1);
@@ -111,7 +112,8 @@ public class UserManagerBean implements UserManagerLocal, UserManagerRemote {
 		userStatistics.save(userStat);
 		user.setStat(userStat);
 		users.update(user);
-		
+
+		// Lock(WRITE) is the default and does not need to be specified explicitly
 		CommonStatistic commonStat = commonStatistics.findLast();
 		commonStat.setLogouts(commonStat.getLogouts() + 1);
 		commonStatistics.update(commonStat);

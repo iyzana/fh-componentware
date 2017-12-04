@@ -13,13 +13,14 @@ import javax.persistence.OneToOne;
 		@NamedQuery(name="User.findAll", query="select u from User u"),
 		@NamedQuery(name="User.findByName", query="select u from User u where u.name = :name")
 })
-public class User {
+public class User extends TrackedEntity {
 	@Id
 	@GeneratedValue
 	private long id;
 	
-	@Column(unique = true)
+	@Column(unique = true, nullable = false)
 	private String name;
+	@Column(nullable = false)
 	private String pw;
 
 	@OneToOne

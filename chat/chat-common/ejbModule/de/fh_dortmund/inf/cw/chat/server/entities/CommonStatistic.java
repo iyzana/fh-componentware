@@ -2,12 +2,12 @@ package de.fh_dortmund.inf.cw.chat.server.entities;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
 
 @Entity
 @NamedQueries(value = {
@@ -18,8 +18,10 @@ public class CommonStatistic extends Statistic {
 	@Id
 	@GeneratedValue
 	private long id;
-	
+
+	@Column(unique = true, nullable = false)
 	private Date startingDate;
+	@Column(nullable = false)
 	private Date endDate;
 
 	public Date getStartingDate() {

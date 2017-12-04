@@ -70,6 +70,7 @@ public class MessageProcessorBean implements MessageProcessorLocal, MessageProce
 			user.setStat(userStat);
 			users.update(user);
 
+			// Lock(WRITE) is the default and does not need to be specified explicitly
 			CommonStatistic commonStat = commonStatistics.findLast();
 			commonStat.setMessages(commonStat.getMessages() + 1);
 			commonStatistics.update(commonStat);

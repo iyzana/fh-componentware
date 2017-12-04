@@ -5,7 +5,7 @@ import java.io.Serializable;
 import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
-public abstract class Statistic implements Serializable {
+public abstract class Statistic extends TrackedEntity implements Serializable {
 	private int logins;
 	private int logouts;
 	private int messages;
