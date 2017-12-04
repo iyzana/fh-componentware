@@ -1,47 +1,49 @@
 package de.fh_dortmund.jk.chat.beans;
 
-import static java.util.Collections.synchronizedList;
-
-import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
-import javax.ejb.Singleton;
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.PersistenceContext;
 
 import de.fh_dortmund.inf.cw.chat.server.entities.CommonStatistic;
 import de.fh_dortmund.jk.chat.beans.interfaces.CommonStatisticRepositoryLocal;
 import de.fh_dortmund.jk.chat.beans.interfaces.CommonStatisticRepositoryRemote;
 
-@Singleton
+@Stateless
 public class CommonStatisticRepositoryBean implements CommonStatisticRepositoryLocal, CommonStatisticRepositoryRemote {
-	private List<CommonStatistic> statistics = synchronizedList(new LinkedList<>());
+	@PersistenceContext
+	private EntityManager em;
 
 	@Override
 	public CommonStatistic save(CommonStatistic statistic) {
-		statistics.add(statistic);
-		
+		em.persist(statistic);
+
 		return statistic;
 	}
-	
+
 	@Override
 	public CommonStatistic update(CommonStatistic statistic) {
-		return statistic;
+		return em.merge(statistic);
 	}
 
 	@Override
 	public List<CommonStatistic> findAll() {
-		return new ArrayList<>(statistics);
+		return em.createNamedQuery("CommonStatistic.findAll", CommonStatistic.class).getResultList();
 	}
 
 	@Override
 	public CommonStatistic findLast() {
-		if (statistics.isEmpty())
+		try {
+			return em.createNamedQuery("CommonStatistic.findLast", CommonStatistic.class).setMaxResults(1).getSingleResult();
+		} catch (NoResultException e) {
 			return null;
-		return statistics.get(statistics.size() - 1);
+		}
 	}
 
 	@Override
 	public void delete(CommonStatistic statistic) {
-		statistics.remove(statistic);
+		em.remove(statistic);
 	}
 }

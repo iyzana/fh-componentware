@@ -11,9 +11,9 @@ import de.fh_dortmund.jk.chat.beans.exception.UserNotFoundException;
 
 @Local
 public interface UserRepositoryLocal extends UserRepository {
-	User save(User user) throws UserExistsException;
+	User save(User user);
 
-	User update(User user) throws UserNotFoundException;
+	User update(User user);
 
 	List<User> findAll();
 

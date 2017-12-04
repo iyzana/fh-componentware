@@ -5,8 +5,15 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 
 @Entity
+@NamedQueries(value = {
+		@NamedQuery(name="CommonStatistic.findAll", query="select s from CommonStatistic s"),
+		@NamedQuery(name="CommonStatistic.findLast", query="select s from CommonStatistic s order by s.startingDate desc")
+})
 public class CommonStatistic extends Statistic {
 	@Id
 	@GeneratedValue

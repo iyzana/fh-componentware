@@ -26,7 +26,6 @@ import de.fh_dortmund.jk.chat.beans.exception.NotAuthenticatedException;
 import de.fh_dortmund.jk.chat.beans.interfaces.CommonStatisticRepositoryRemote;
 import de.fh_dortmund.jk.chat.beans.interfaces.UserManagerRemote;
 import de.fh_dortmund.jk.chat.beans.interfaces.UserSessionRemote;
-import de.fh_dortmund.jk.chat.beans.interfaces.UserStatisticRepositoryRemote;
 
 public class ServiceHandlerImpl extends ServiceHandler
 		implements UserSessionHandler, ChatMessageHandler, MessageListener, StatisticHandler {
@@ -40,7 +39,6 @@ public class ServiceHandlerImpl extends ServiceHandler
 	private UserSessionRemote session;
 	private UserManagerRemote manager;
 	private CommonStatisticRepositoryRemote commonStatsRepo;
-	private UserStatisticRepositoryRemote userStatsRepo;
 	private JMSContext jmsContext;
 	private Queue chat;
 	private Topic disconnect;
@@ -55,8 +53,6 @@ public class ServiceHandlerImpl extends ServiceHandler
 					"java:global/chat-ear/chat-ejb/UserManagerBean!de.fh_dortmund.jk.chat.beans.interfaces.UserManagerRemote");
 			commonStatsRepo = (CommonStatisticRepositoryRemote) ctx.lookup(
 					"java:global/chat-ear/chat-ejb/CommonStatisticRepositoryBean!de.fh_dortmund.jk.chat.beans.interfaces.CommonStatisticRepositoryRemote");
-			userStatsRepo = (UserStatisticRepositoryRemote) ctx.lookup(
-					"java:global/chat-ear/chat-ejb/UserStatisticRepositoryBean!de.fh_dortmund.jk.chat.beans.interfaces.UserStatisticRepositoryRemote");
 
 			ConnectionFactory con = (ConnectionFactory) ctx.lookup("java:comp/DefaultJMSConnectionFactory");
 			jmsContext = con.createContext();
@@ -159,6 +155,10 @@ public class ServiceHandlerImpl extends ServiceHandler
 
 	@Override
 	public UserStatistic getUserStatistic() {
-		return userStatsRepo.findByUser(getUserName());
+		try {
+			return session.getStat();
+		} catch (NotAuthenticatedException e) {
+			throw new RuntimeException(e);
+		}
 	}
 }

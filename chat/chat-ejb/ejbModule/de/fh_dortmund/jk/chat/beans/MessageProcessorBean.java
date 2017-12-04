@@ -18,12 +18,15 @@ import javax.jms.TextMessage;
 import javax.jms.Topic;
 
 import de.fh_dortmund.inf.cw.chat.server.entities.CommonStatistic;
+import de.fh_dortmund.inf.cw.chat.server.entities.User;
 import de.fh_dortmund.inf.cw.chat.server.entities.UserStatistic;
 import de.fh_dortmund.inf.cw.chat.server.shared.ChatMessage;
 import de.fh_dortmund.inf.cw.chat.server.shared.ChatMessageType;
+import de.fh_dortmund.jk.chat.beans.exception.UserNotFoundException;
 import de.fh_dortmund.jk.chat.beans.interfaces.CommonStatisticRepositoryLocal;
 import de.fh_dortmund.jk.chat.beans.interfaces.MessageProcessorLocal;
 import de.fh_dortmund.jk.chat.beans.interfaces.MessageProcessorRemote;
+import de.fh_dortmund.jk.chat.beans.interfaces.UserRepositoryLocal;
 import de.fh_dortmund.jk.chat.beans.interfaces.UserStatisticRepositoryLocal;
 
 @MessageDriven(mappedName = "java:global/jms/ChatSending", messageListenerInterface = MessageListener.class, activationConfig = {
@@ -34,6 +37,8 @@ public class MessageProcessorBean implements MessageProcessorLocal, MessageProce
 	@Resource(lookup = "java:global/jms/ChatReceiving")
 	private Topic chat;
 
+	@EJB
+	private UserRepositoryLocal users;
 	@EJB
 	private UserStatisticRepositoryLocal userStatistics;
 	@EJB
@@ -53,12 +58,17 @@ public class MessageProcessorBean implements MessageProcessorLocal, MessageProce
 			for (String word : content.split("\\b")) {
 				sanitizedContent.append(badWordReplacer(word));
 			}
+			
+			User user = users.findUserByName(sender)
+					.orElseThrow(() -> new UserNotFoundException("Der Nutzer " + sender + " existiert nicht."));
 
-			UserStatistic userStat = userStatistics.findByUser(sender);
+			UserStatistic userStat = user.getStat();
 			if (userStat == null)
 				userStat = new UserStatistic();
 			userStat.setMessages(userStat.getMessages() + 1);
-			userStatistics.save(sender, userStat);
+			userStatistics.save(userStat);
+			user.setStat(userStat);
+			users.update(user);
 
 			CommonStatistic commonStat = commonStatistics.findLast();
 			commonStat.setMessages(commonStat.getMessages() + 1);
@@ -66,6 +76,8 @@ public class MessageProcessorBean implements MessageProcessorLocal, MessageProce
 
 			sendMessage(new ChatMessage(type, sender, sanitizedContent.toString(), when));
 		} catch (JMSException e) {
+			e.printStackTrace();
+		} catch (UserNotFoundException e) {
 			e.printStackTrace();
 		}
 	}

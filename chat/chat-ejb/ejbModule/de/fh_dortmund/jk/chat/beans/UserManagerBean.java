@@ -76,16 +76,20 @@ public class UserManagerBean implements UserManagerLocal, UserManagerRemote {
 	}
 
 	@Override
-	public void userLoggedIn(String username) {
+	public void userLoggedIn(User user) {
+		String username = user.getName();
+		
 		if (onlineUsers.contains(username))
 			sendDisconnectMessage(username);
 
-		UserStatistic userStat = userStatistics.findByUser(username);
+		UserStatistic userStat = user.getStat();
 		if (userStat == null)
 			userStat = new UserStatistic();
 		userStat.setLogins(userStat.getLogins() + 1);
 		userStat.setLastLogin(new Date());
-		userStatistics.save(username, userStat);
+		userStatistics.save(userStat);
+		user.setStat(userStat);
+		users.update(user);
 		
 		statistics.createFirstStatistic();
 		CommonStatistic commonStat = commonStatistics.findLast();
@@ -99,19 +103,21 @@ public class UserManagerBean implements UserManagerLocal, UserManagerRemote {
 	}
 
 	@Override
-	public void userLoggedOut(String username) {
-		UserStatistic userStat = userStatistics.findByUser(username);
+	public void userLoggedOut(User user) {
+		UserStatistic userStat = user.getStat();
 		if (userStat == null)
 			userStat = new UserStatistic();
 		userStat.setLogouts(userStat.getLogouts() + 1);
-		userStatistics.save(username, userStat);
+		userStatistics.save(userStat);
+		user.setStat(userStat);
+		users.update(user);
 		
 		CommonStatistic commonStat = commonStatistics.findLast();
 		commonStat.setLogouts(commonStat.getLogouts() + 1);
 		commonStatistics.update(commonStat);
 		
-		onlineUsers.remove(username);
-		sendMessageOfType(ChatMessageType.LOGOUT, username);
+		onlineUsers.remove(user.getName());
+		sendMessageOfType(ChatMessageType.LOGOUT, user.getName());
 	}
 
 	private void sendMessageOfType(ChatMessageType type, String sender) {

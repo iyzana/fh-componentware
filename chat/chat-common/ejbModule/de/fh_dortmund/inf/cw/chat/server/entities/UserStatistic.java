@@ -5,18 +5,18 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 
 @Entity
+@NamedQuery(name="UserStatistic.findAll", query="select s from UserStatistic s")
 public class UserStatistic extends Statistic {
 	@Id
 	@GeneratedValue
 	private long id;
 	
 	private Date lastLogin;
-	
-	@OneToOne
-	private User user;
 
 	public Date getLastLogin() {
 		return lastLogin;

@@ -5,6 +5,7 @@ import javax.ejb.Remove;
 import javax.ejb.Stateful;
 
 import de.fh_dortmund.inf.cw.chat.server.entities.User;
+import de.fh_dortmund.inf.cw.chat.server.entities.UserStatistic;
 import de.fh_dortmund.jk.chat.beans.exception.AlreadyLoggedInException;
 import de.fh_dortmund.jk.chat.beans.exception.NotAuthenticatedException;
 import de.fh_dortmund.jk.chat.beans.exception.UserNotFoundException;
@@ -46,7 +47,7 @@ public class UserSessionBean implements UserSessionLocal, UserSessionRemote {
 
 		this.user = user;
 		
-		manager.userLoggedIn(user.getName());
+		manager.userLoggedIn(user);
 	}
 
 	@Override
@@ -60,7 +61,10 @@ public class UserSessionBean implements UserSessionLocal, UserSessionRemote {
 	@Remove
 	@Override
 	public void logout() throws NotAuthenticatedException {
-		manager.userLoggedOut(getUserName());
+		if (user == null)
+			throw new NotAuthenticatedException("Nicht eingeloggt");
+		
+		manager.userLoggedOut(user);
 		
 		this.user = null;
 	}
@@ -83,6 +87,14 @@ public class UserSessionBean implements UserSessionLocal, UserSessionRemote {
 		
 		users.delete(user);
 		logout();
+	}
+	
+	@Override
+	public UserStatistic getStat() throws NotAuthenticatedException {
+		if (user == null)
+			throw new NotAuthenticatedException("Nicht eingeloggt");
+		
+		return users.findUserByName(user.getName()).get().getStat();
 	}
 	
 	private void requireFullAuthentication(String pw) throws NotAuthenticatedException {

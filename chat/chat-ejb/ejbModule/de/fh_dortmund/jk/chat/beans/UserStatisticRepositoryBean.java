@@ -1,39 +1,34 @@
 package de.fh_dortmund.jk.chat.beans;
 
-import static java.util.Collections.synchronizedMap;
+import java.util.List;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.ejb.Singleton;
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 import de.fh_dortmund.inf.cw.chat.server.entities.UserStatistic;
 import de.fh_dortmund.jk.chat.beans.interfaces.UserStatisticRepositoryLocal;
 import de.fh_dortmund.jk.chat.beans.interfaces.UserStatisticRepositoryRemote;
 
-@Singleton
+@Stateless
 public class UserStatisticRepositoryBean implements UserStatisticRepositoryLocal, UserStatisticRepositoryRemote {
-	private Map<String, UserStatistic> statistics = synchronizedMap(new HashMap<>());
-
+	@PersistenceContext
+	private EntityManager em;
+	
 	@Override
-	public UserStatistic save(String username, UserStatistic statistic) {
-		statistics.put(username, statistic);
+	public UserStatistic save(UserStatistic statistic) {
+		em.persist(statistic);
 		
 		return statistic;
 	}
 
 	@Override
-	public Map<String, UserStatistic> findAll() {
-		return new HashMap<>(statistics);
-	}
-
-	@Override
-	public UserStatistic findByUser(String username) {
-		return statistics.get(username);
+	public List<UserStatistic> findAll() {
+		return em.createNamedQuery("UserStatistic.findAll", UserStatistic.class).getResultList();
 	}
 	
 	@Override
-	public void delete(String username) {
-		statistics.remove(username);
+	public void delete(UserStatistic statistic) {
+		em.remove(statistic);
 	}
 }
