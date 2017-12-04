@@ -47,7 +47,7 @@ public class UserSessionBean implements UserSessionLocal, UserSessionRemote {
 
 		this.user = user;
 		
-		manager.userLoggedIn(user);
+		manager.userLoggedIn(user.getName());
 	}
 
 	@Override
@@ -60,11 +60,11 @@ public class UserSessionBean implements UserSessionLocal, UserSessionRemote {
 
 	@Remove
 	@Override
-	public void logout() throws NotAuthenticatedException {
+	public void logout() throws NotAuthenticatedException, UserNotFoundException {
 		if (user == null)
 			throw new NotAuthenticatedException("Nicht eingeloggt");
 		
-		manager.userLoggedOut(user);
+		manager.userLoggedOut(user.getName());
 		
 		this.user = null;
 	}
@@ -75,7 +75,7 @@ public class UserSessionBean implements UserSessionLocal, UserSessionRemote {
 		if (user != null) {
 			try {
 				logout();
-			} catch (NotAuthenticatedException e) {
+			} catch (NotAuthenticatedException | UserNotFoundException e) {
 				throw new RuntimeException(e);
 			}
 		}

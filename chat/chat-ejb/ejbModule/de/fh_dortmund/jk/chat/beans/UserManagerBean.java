@@ -21,6 +21,7 @@ import de.fh_dortmund.inf.cw.chat.server.entities.UserStatistic;
 import de.fh_dortmund.inf.cw.chat.server.shared.ChatMessage;
 import de.fh_dortmund.inf.cw.chat.server.shared.ChatMessageType;
 import de.fh_dortmund.jk.chat.beans.exception.UserExistsException;
+import de.fh_dortmund.jk.chat.beans.exception.UserNotFoundException;
 import de.fh_dortmund.jk.chat.beans.interfaces.CommonStatisticRepositoryLocal;
 import de.fh_dortmund.jk.chat.beans.interfaces.StatisticServiceLocal;
 import de.fh_dortmund.jk.chat.beans.interfaces.UserManagerLocal;
@@ -76,8 +77,9 @@ public class UserManagerBean implements UserManagerLocal, UserManagerRemote {
 	}
 
 	@Override
-	public void userLoggedIn(User user) {
-		String username = user.getName();
+	public void userLoggedIn(String username) throws UserNotFoundException {
+		User user = users.findUserByName(username)
+				.orElseThrow(() -> new UserNotFoundException("Der Nutzer " + username + " wurde nicht gefunden.")); 
 		
 		if (onlineUsers.contains(username))
 			sendDisconnectMessage(username);
@@ -104,7 +106,10 @@ public class UserManagerBean implements UserManagerLocal, UserManagerRemote {
 	}
 
 	@Override
-	public void userLoggedOut(User user) {
+	public void userLoggedOut(String username) throws UserNotFoundException {
+		User user = users.findUserByName(username)
+				.orElseThrow(() -> new UserNotFoundException("Der Nutzer " + username + " wurde nicht gefunden.")); 
+		
 		UserStatistic userStat = user.getStat();
 		if (userStat == null)
 			userStat = new UserStatistic();

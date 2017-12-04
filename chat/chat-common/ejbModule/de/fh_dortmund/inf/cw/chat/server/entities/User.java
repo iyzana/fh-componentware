@@ -1,5 +1,6 @@
 package de.fh_dortmund.inf.cw.chat.server.entities;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,12 +19,12 @@ public class User extends TrackedEntity {
 	@GeneratedValue
 	private long id;
 	
-	@Column(unique = true, nullable = false)
+	@Column(unique = true, nullable = false, length=50)
 	private String name;
-	@Column(nullable = false)
+	@Column(nullable = false, length=128)
 	private String pw;
 
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	private UserStatistic stat;
 
 	public UserStatistic getStat() {
